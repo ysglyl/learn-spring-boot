@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://192.168.1.100:1433;DatabaseName=FMS_DEV
+    username: sa
+    password: root123
+    type: com.zaxxer.hikari.HikariDataSource
+mybatis:
+  check-config-location: false
+debug: true
+logging:
+  path: ./logs
