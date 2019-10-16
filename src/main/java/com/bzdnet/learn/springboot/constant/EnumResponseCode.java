@@ -4,10 +4,11 @@ import lombok.Getter;
 
 public enum EnumResponseCode {
 
-    SUCCESS(200),
-    ERROR(500),
-    CUSTOM_EXCEPTION(800),
-    VALID_EXCEPTION(900);
+    SUCCESS(0),
+    FAIL(1),
+    ERROR(-1),
+    CUSTOM_EXCEPTION(-10),
+    VALID_EXCEPTION(-20);
 
     @Getter
     private int code;

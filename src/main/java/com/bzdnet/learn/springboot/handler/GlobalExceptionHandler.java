@@ -2,8 +2,9 @@ package com.bzdnet.learn.springboot.handler;
 
 import com.bzdnet.learn.springboot.constant.EnumResponseCode;
 import com.bzdnet.learn.springboot.exception.CustomException;
-import com.bzdnet.learn.springboot.vo.ResultVO;
+import com.bzdnet.learn.springboot.result.Result;
 import org.springframework.validation.BindException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -13,25 +14,19 @@ import javax.validation.ConstraintViolationException;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomException.class)
-    public ResultVO handleCustomException(CustomException ce) {
-        return new ResultVO(EnumResponseCode.CUSTOM_EXCEPTION.getCode(), ce.getMessage());
+    public Result handleCustomException(CustomException ce) {
+        return new Result(EnumResponseCode.CUSTOM_EXCEPTION.getCode(), ce.getMessage());
     }
 
-    @ExceptionHandler(BindException.class)
-    public ResultVO handleError(BindException be) {
-        return new ResultVO(EnumResponseCode.VALID_EXCEPTION.getCode(), be.getMessage());
-    }
-
-    @ExceptionHandler({ConstraintViolationException.class})
-    public ResultVO handleValidationParamError(ConstraintViolationException ex) {
-        ex.printStackTrace();
-        return new ResultVO(EnumResponseCode.VALID_EXCEPTION.getCode(), ex.getMessage());
+    @ExceptionHandler({BindException.class, ConstraintViolationException.class, MethodArgumentNotValidException.class})
+    public Result handleValidException(Exception ex) {
+        return new Result(EnumResponseCode.VALID_EXCEPTION.getCode(), ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
-    public ResultVO handleGlobalError(Exception ex) {
+    public Result handleGlobalError(Exception ex) {
         ex.printStackTrace();
-        return new ResultVO(EnumResponseCode.ERROR.getCode(), ex.getMessage());
+        return new Result(EnumResponseCode.ERROR.getCode(), ex.getMessage());
     }
 
 }
